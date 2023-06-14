@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"fmt"
+	"time"
 
 	"go-latihan1/connection"
 	"net/http"
@@ -133,12 +134,34 @@ func blogview(c echo.Context) error {
 	return temp.Execute(c.Response(), blogs)
 }
 
+func dursasiTanggal(stardate string, enddate string) string {
+	awalMulai, _ := time.Parse("2006-01-02", stardate)
+
+	akhirMulai, _ := time.Parse("2006-01-02", enddate)
+
+	durasi := akhirMulai.Sub(awalMulai)
+
+	years := durasi.Hours() / 24 / 365
+	yearsInt := int(years)
+
+	months := (durasi.Hours() / 24) / 30
+	monthsInt := int(months)
+
+	days := durasi.Hours() / 24
+	daysInt := int(days)
+
+	durasii := fmt.Sprintf("Durasi: %d tahun, %d bulan, %d hari", yearsInt, monthsInt, daysInt)
+	return durasii
+
+}
+
 func tambahBlog(c echo.Context) error {
 	nama := c.FormValue("nama")
 	stardate := c.FormValue("start")
 	enddate := c.FormValue("endDate")
 	deskripsi := c.FormValue("deskripsi")
-	durasi := c.FormValue("deskripsi")
+
+	durasi := dursasiTanggal(stardate, enddate)
 	// durasi := calculateDuration(stardate, endDate)
 	var nodejs bool
 	if c.FormValue("nodeJss") == "yes" {
