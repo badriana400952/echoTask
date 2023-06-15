@@ -37,6 +37,26 @@
                         <li class="nav-item">
                             <a class="nav-link" href="kontak">Contact</a>
                         </li>
+                        {{if .DataSession.IsLogin}}
+                        <li class="nav-item mx-3 my-2">
+                            <a href="#" style="text-decoration: none; color: black"><i class="fa-solid fa-user"></i>
+                                {{.DataSession.Name}}</a>
+                        </li>
+                        <li class="nav-item mx-3 my-1 ">
+                            <form id="myform" action="/logout" method="POST"></form>
+                            <button onclick="document.getElementById('myform').submit()"
+                                class="btn-auth bg-dark text-light border-dark rounded-2 px-3 py-1 ">
+                                <i class="fa-solid fa-right-from-bracket text-light"></i> Logout
+                            </button>
+                        </li>
+                        {{else}}
+                        <li class="nav-item my-2 px-2">
+                            <a href="/regis" class="btn-auth text-decoration-none"> Register</a>
+                        </li>
+                        <li class="nav-item my-2 px-2">
+                            <a href="/formlogin" class="btn-auth text-decoration-none">Login</a>
+                        </li>
+                        {{end}}
                     </ul>
                 </div>
             </div>
@@ -45,47 +65,50 @@
 
     <section class="mt-5 ">
         <div class="container">
+
+            {{if .DataSession.IsLogin}}
             <button type="button" class="btn btn-primary"><a class="nav-link" href="tambahBlog">Tambah Data Blog</a>
             </button>
+            {{end}}
+
             <div class="row">
                 {{range $index, $data := .Blogs}}
                 <div class="col d-flex justify-content-around mt-3 wpp " id="view">
                     <div class="card my-4 border-none shadow" style="width: 23rem;">
                         <img src="public/assets/OIP.jpg" class="card-img-top" alt="aa">
                         <div class="card-body">
-                            <h5 class="text-dark-emphasis "> 
-                                <a href="detail/{{$data.ID}}" class="text-decoration-none text-dark">{{$data.Nama}}</a></h5>
+                            <h5 class="text-dark-emphasis ">
+                                <a href="detail/{{$data.ID}}" class="text-decoration-none text-dark">{{$data.Nama}}</a>
+                            </h5>
                             <p class="card-text fs-6 text-gray">Dari - {{$data.Stardate}} - {{$data.Enddate}}</p>
-                            <!-- <p class="card-text">Sampai - {{$data.Enddate}}</p> -->
                             <p class="card-text">{{$data.Durasi}} </p>
-                            <!-- <p class="card-text">Durasi - </p> -->
                             <p class="card-text">{{$data.Deskripsi}} </p>
-                
+
                             <p class="card-text">{{$data.Img}} </p>
                             <div class="iconss">
                                 {{if $data.Nodejs}}
                                 <i class="fa-brands fa-node fs-3"></i>
-                                {{end}} 
+                                {{end}}
                                 {{if $data.React}}
                                 <i class="fa-brands fa-react fs-3"></i>
-                                {{end}} 
+                                {{end}}
                                 {{if $data.Nextjs}}
                                 <i class="fa-brands fa-square-js fs-3"></i>
-                                {{end}} 
+                                {{end}}
                                 {{if $data.Typescript}}
                                 <i class="fa-brands fa-vuejs fs-3"></i>
                                 {{end}}
                             </div>
                             <div class="mt-4 d-flex justify-content-center gap-3 ">
                                 <div>
-                                    <form action="/myEdit/{{$data.ID}}" method="GET" class="bg-dark rounded">
+                       
+                                    <form action="/myEdit/{{$data.ID}}" method="GET" class="bg-dark rounded"  >
                                         <input type="submit" value="Edit" class="btn text-light rounded"
                                             style="width: 140px;" />
                                     </form>
-
                                 </div>
                                 <duv>
-                                    <form action="/deleteBlog/{{$data.ID}}" method="post" class="bg-dark rounded">
+                                    <form action="/deleteBlog/{{$data.ID}}" method="post" class="bg-dark rounded" >
                                         <input type="submit" value="Delete" class="btn text-light"
                                             style="width: 140px;" />
                                     </form>

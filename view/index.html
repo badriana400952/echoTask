@@ -36,13 +36,49 @@
                         <li class="nav-item">
                             <a class="nav-link" href="kontak">Contact</a>
                         </li>
+                        {{if .DataSession.IsLogin}}
+                        <li class="nav-item mx-3 my-2">
+                            <a href="#" style="text-decoration: none; color: black"><i class="fa-solid fa-user"></i>
+                                {{.DataSession.Name}}</a>
+                        </li>
+                        <li class="nav-item mx-3 my-1 ">
+                            <form id="myform" action="/logout" method="POST"></form>
+                            <button onclick="document.getElementById('myform').submit()" class="btn-auth bg-dark text-light border-dark rounded-2 px-3 py-1 ">
+                                <i class="fa-solid fa-right-from-bracket text-light"></i> Logout
+                            </button>
+                        </li>
+                        {{else}}
+                        <li class="nav-item my-2 px-2">
+                            <a href="/regis" class="btn-auth text-decoration-none"> Register</a>
+                        </li>
+                        <li class="nav-item my-2 px-2">
+                            <a href="/formlogin" class="btn-auth text-decoration-none">Login</a>
+                        </li>
+                        {{end}}
                     </ul>
                 </div>
             </div>
         </div>
     </nav>
+    {{if .FlashMessage}} {{if .FlashStatus}}
+    <div class="container">
+    <div class="alert alert-primary" role="alert">
+        <strong>{{.FlashMessage}}</strong>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    </div>  
+    {{else}}
+    <div class="container"> 
+    <div class="alert alert-primary" role="alert">
+        <strong>{{.FlashMessage}}</strong>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    </div>
+    {{end}} {{end}}
 
-    <section>
+
+
+    <section class="my-5">
         <div class="container bg-white mt-4 shadow">
             <div class="row">
                 <div class="col col-md-7 p-5 col-sm-12">
@@ -92,6 +128,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
         crossorigin="anonymous"></script>
+
 </body>
 
 </html>
