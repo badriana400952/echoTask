@@ -42,12 +42,15 @@ func main() {
 	e.GET("tambahBlog", myBlog)
 	e.GET("kontak", kontak)
 	e.GET("/blogview", blogview)
-
+	e.GET("/myEdit/:id", editBlog)
 	e.GET("/detail/:id", detail)
+
+	e.POST("/myEdit/:id", metodBlogEdit)
 
 	e.POST("tambahBlog", tambahBlog)
 	e.POST("/deleteBlog/:id", deleteBlog)
 	e.Logger.Fatal(e.Start("localhost:3000"))
+
 }
 
 func halloWord(c echo.Context) error {
@@ -88,20 +91,20 @@ func detail(c echo.Context) error {
 
 	var Details = Blog{}
 
-	ppp := connection.Conn.QueryRow(context.Background(), "SELECT * FROM datablog WHERE id=$1", id).Scan(
-		&Details.ID, &Details.Nama, &Details.Stardate, &Details.Enddate, &Details.Deskripsi, &Details.Nodejs, &Details.React, &Details.Nextjs, &Details.Typescript, &Details.Img)
+	err := connection.Conn.QueryRow(context.Background(), "SELECT * FROM coba5 WHERE id=$1", id).Scan(
+		&Details.ID, &Details.Nama, &Details.Stardate, &Details.Enddate, &Details.Durasi, &Details.Deskripsi, &Details.Nodejs, &Details.React, &Details.Nextjs, &Details.Typescript, &Details.Img)
 
-	if ppp != nil {
-		return c.JSON(http.StatusInternalServerError, map[string]string{"message": ppp.Error()})
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, map[string]string{"message": err.Error()})
 	}
 	data := map[string]interface{}{
 		"Blog": Details,
 	}
 
-	var tmpl, err = template.ParseFiles("view/detail.html")
+	var tmpl, errr = template.ParseFiles("view/detail.html")
 
-	if err != nil {
-		return c.JSON(http.StatusInternalServerError, map[string]string{"message": err.Error()})
+	if errr != nil {
+		return c.JSON(http.StatusInternalServerError, map[string]string{"message": errr.Error()})
 	}
 
 	return tmpl.Execute(c.Response(), data)
@@ -182,9 +185,51 @@ func tambahBlog(c echo.Context) error {
 	if c.FormValue("typeScript") == "yes" {
 		typescript = true
 	}
-	img := c.FormValue("imageUploud")
+	img := c.FormValue("")
 
 	_, err := connection.Conn.Exec(context.Background(), "INSERT INTO coba5 (nama, stardate, enddate,durasi, deskripsi, nodejs, react, nextjs, typescript, img) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)", nama, stardate, enddate, durasi, deskripsi, nodejs, react, nextjs, typescript, img)
+
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, map[string]string{"message": err.Error()})
+	}
+
+	return c.Redirect(http.StatusMovedPermanently, "/blogview")
+}
+func editBlog(c echo.Context) error {
+
+	id, _ := strconv.Atoi(c.Param("id"))
+
+	var projectDetail = Blog{}
+
+	err := connection.Conn.QueryRow(context.Background(), "SELECT id, nama, stardate, enddate,durasi, deskripsi, nodejs, react, nextjs, typescript, img FROM coba5 WHERE id=$1", id).Scan(&projectDetail.ID, &projectDetail.Nama, &projectDetail.Stardate, &projectDetail.Enddate, &projectDetail.Durasi, &projectDetail.Deskripsi, &projectDetail.Nodejs, &projectDetail.React, &projectDetail.Nextjs, &projectDetail.Typescript, &projectDetail.Img)
+
+	data := map[string]interface{}{
+		"Blog": projectDetail,
+	}
+
+	var tmpl, errTemplate = template.ParseFiles("view/myEdit.html")
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, map[string]string{"message": errTemplate.Error()})
+	}
+
+	return tmpl.Execute(c.Response(), data)
+
+}
+
+func metodBlogEdit(c echo.Context) error {
+	id, _ := strconv.Atoi(c.Param("id"))
+	nama := c.FormValue("nama")
+	stardate := c.FormValue("start")
+	enddate := c.FormValue("endDate")
+	durasi := dursasiTanggal(stardate, enddate)
+	deskripsi := c.FormValue("deskripsi")
+	nodejs := c.FormValue("nodeJss")
+	react := c.FormValue("react")
+	Nextjs := c.FormValue("next")
+	Typescript := c.FormValue("typeScript")
+	img := c.FormValue("")
+
+	_, err := connection.Conn.Exec(context.Background(), "UPDATE coba5 SET nama=$1, stardate=$2, enddate=$3, durasi=$4, deskripsi=$5, nodejs=$6, react=$7, nextjs=$8, typescript=$9, img=$10 WHERE id=$11", nama, stardate, enddate, durasi, deskripsi, nodejs != "", react != "", Nextjs != "", Typescript != "", img, id)
 
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, map[string]string{"message": err.Error()})

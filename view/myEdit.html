@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="view/style/style.css">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <link rel="stylesheet" href="style/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+        integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <title>Badriana</title>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg bg-body-tertiary navs">
+        <div class="container">
+            <a class="navbar-brand" href="#">IMG</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText"
+                aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarText">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="blogview">My Blog</a>
+                    </li>
+                </ul>
+                <div class="navbar-text">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link" href="kontak">Contact</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <section>
+        <div class="container mt-5">
+            <form action="/myEdit/{{ .Blog.ID }}" method="post">
+                <div class="mb-3">
+                    <label for="nama" class="form-label">Name Project</label>
+                    <input type="text" name="nama" class="form-control" id="nama" aria-describedby="emailHelp"
+                        value="{{ .Blog.Nama }}">
+                </div>
+                <div>
+                    <div class="row">
+                        <div class="col">
+                            <div class="mb-3">
+                                <label for="start" class="form-label">Start Date</label>
+                                <input type="date" name="start" class="form-control" id="start"
+                                    value="{{ .Blog.Stardate }}">
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="mb-3">
+                                <label for="endDate" class="form-label">End Date</label>
+                                <input type="date" class="form-control" id="endDate" name="endDate"
+                                    value="{{ .Blog.Enddate }}">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label for="deskripsi" class="form-label">Example textarea</label>
+                    <textarea class="form-control" id="deskripsi" rows="3" name="deskripsi"
+                        value="{{ .Blog.Deskripsi }}"></textarea>
+                </div>
+                <div class="mb-3">
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="yes" id="nodeJss" name="nodeJss"
+                                    {{if .Blog.Nodejs }} checked {{end}} />
+                                <label class="form-check-label" for="nodeJss">
+                                    Node js
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="yes" id="react" name="react"
+                                    {{if .Blog.React }} checked {{end}} />
+                                <label class="form-check-label" for="react">
+                                    React js
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="yes" id="next" name="next"
+                                    {{if .Blog.Nextjs }} checked {{end}} />
+                                <label class="form-check-label" for="next">
+                                    Next Js
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="yes" id="typeScript"
+                                    name="typeScript" {{if .Blog.Typescript }} checked {{end}} />
+                                <label class="form-check-label" for="typeScript">
+                                    Type Script
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label for="image" class="form-label">Upload Images</label>
+                    <input type="file" class="form-control" id="image" aria-describedby="emailHelp">
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+    </section>
+    <!-- <section class="mt-5 ">
+        <div class="container">
+            <div class="row">
+                <div class="col d-flex justify-content-around mt-3 wpp " id="view">
+                    <div class="card my-4 border-none shadow" style="width: 23rem;">
+                        <img src="public/assets/a.jpg" class="card-img-top" alt="aa">
+                        <div class="card-body">
+                            <h5 class="text-dark-emphasis ">Badriana</h5>
+                            <p class="card-text">Dari - </p>
+                            <p class="card-text">Sampai - </p>
+                            <p class="card-text">Durasi - </p>
+                            <p class="card-text">Some quick example text to build on the card title and make up the bulk
+                                of the card's content.</p>
+                                <div class="iconss">
+                                    <i class="fa-brands fa-node fs-3"></i>
+                                    <i class="fa-brands fa-react fs-3"></i>
+                                    <i class="fa-brands fa-square-js fs-3"></i>
+                                    <i class="fa-brands fa-vuejs fs-3"></i>
+                                </div>
+                                <div class="mt-4 d-flex justify-content-center gap-3" >
+                                    <button class="btn btn-dark"><a class="text-decoration-none text-light px-5 " href="detail">Detail</a> </button>
+                                    <button class="btn btn-dark text-light px-5">Delete</button>
+                                </div>
+                        </div>
+                    </div>
+
+                   
+
+                    
+                </div>
+            </div>
+        </div>
+    </section> -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
+        crossorigin="anonymous"></script>
+    <script src="view/js/blog.js"></script>
+</body>
+
+</html>

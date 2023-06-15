@@ -53,7 +53,8 @@
                     <div class="card my-4 border-none shadow" style="width: 23rem;">
                         <img src="public/assets/OIP.jpg" class="card-img-top" alt="aa">
                         <div class="card-body">
-                            <h5 class="text-dark-emphasis ">{{$data.Nama}}</h5>
+                            <h5 class="text-dark-emphasis "> 
+                                <a href="detail/{{$data.ID}}" class="text-decoration-none text-dark">{{$data.Nama}}</a></h5>
                             <p class="card-text fs-6 text-gray">Dari - {{$data.Stardate}} - {{$data.Enddate}}</p>
                             <!-- <p class="card-text">Sampai - {{$data.Enddate}}</p> -->
                             <p class="card-text">{{$data.Durasi}} </p>
@@ -77,7 +78,7 @@
                             </div>
                             <div class="mt-4 d-flex justify-content-center gap-3 ">
                                 <div>
-                                    <form action="/update-project/{{$data.ID}}" method="get" class="bg-dark rounded">
+                                    <form action="/myEdit/{{$data.ID}}" method="GET" class="bg-dark rounded">
                                         <input type="submit" value="Edit" class="btn text-light rounded"
                                             style="width: 140px;" />
                                     </form>
